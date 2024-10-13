@@ -17,7 +17,6 @@ export default async function getImages(query, page, perPage) {
                 safesearch: true,
             },
         });
-        console.log(response);
         return response;
     } catch (e) {
         return e.message;
