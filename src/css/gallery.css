@@ -37,6 +37,7 @@ button:hover {
   flex-wrap: wrap;
   width: 1134px;
   gap: 24px;
+  margin-bottom: 32px;
 }
 
 .gallery-item {
@@ -80,16 +81,36 @@ button:hover {
   transition: scale 0.2s ease;
 }
 
+.hidden {
+  display: none;
+}
+
+.backdrop-loader {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+
 .loader {
   width: 48px;
   height: 48px;
   border: 3px solid #FFF;
   border-radius: 50%;
-  display: none;
+  display: block;
   position: absolute;
-  top: 46%;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
+}
+
+.backdrop-loader.visible {
+  visibility: visible;
 }
 
 .loader::after {
