@@ -5,6 +5,7 @@ import renderGallery from './js/render-functions';
 const form = document.querySelector('.images-form');
 const inputQuery = form.elements.query;
 const loadMoreBtn = document.getElementById('js-load-more');
+const bottomTextMsg = document.getElementById('js-bottom-text-msg');
 const gallery = document.querySelector('.gallery');
 let page = 1;
 let perPage = 15;
@@ -39,6 +40,7 @@ loadMoreBtn.addEventListener('click', () => {
 async function processSubmit(query) {
     form.reset();
     showLoader();
+    hideElement(bottomTextMsg);
 
     page = query != savedQuery ? 1 : page + 1;
     savedQuery = query;
@@ -47,7 +49,7 @@ async function processSubmit(query) {
     hideLoader();
 
     if (result.status !== 200) {
-        hideShowMoreBtn();
+        hideElement(loadMoreBtn);
         gallery.innerHTML = '';
         iziToast.error({
             message: `❌ ${result}!`,
@@ -60,26 +62,27 @@ async function processSubmit(query) {
 
         //If the search results all showing on the page - hide "load more" button
         if (page * perPage >= result.data.totalHits) {
-            hideShowMoreBtn();
+            hideElement(loadMoreBtn);
+            showElement(bottomTextMsg);
         } else {
-            showLoadMoreBtn();
+            showElement(loadMoreBtn);
         }
     } else {
-        hideShowMoreBtn();
+        hideElement(loadMoreBtn);
         gallery.innerHTML = '';
         iziToast.error({
             message: `❌ No results found!`,
         });
     }
 
-    //Show load more button
-    function showLoadMoreBtn() {
-        loadMoreBtn.classList.remove('hidden');
+    //Show element
+    function showElement(el) {
+        el.classList.remove('hidden');
     }
 
-    //Hide load more button
-    function hideShowMoreBtn() {
-        loadMoreBtn.classList.add('hidden');
+    //Hide element
+    function hideElement(el) {
+        el.classList.add('hidden');
     }
 
     //Show spinned loader
